@@ -1,2 +1,2 @@
-# Pitcher-journal
+index.html
 Yearly journal for pitchers
