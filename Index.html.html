@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greater Than I - 2026 Pitcher's Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #4a6fa5;
+            --dark-blue: #2d4668;
+            --light-blue: #e8f0ff;
+            --accent-blue: #5b7fb8;
+            --text-dark: #1a1a1a;
+            --text-gray: #555;
+            --bg-light: #fafbfc;
+            --border-color: #ddd;
+            --success-green: #4caf50;
+            --gold: #f4a460;
+            --purple: #9b59b6;
+            --orange: #e67e22;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f0ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(74, 111, 165, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4rem;
+            color: white;
+            letter-spacing: 4px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-tagline {
+            color: var(--light-blue);
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .three-gs {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .g-badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .g-badge:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+
+        .g-badge span {
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Date Navigator */
+        .date-navigator {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--dark-blue);
+            transform: scale(1.05);
+        }
+
+        .today-btn {
+            background: var(--gold);
+        }
+
+        .today-btn:hover {
+            background: #e6944e;
+        }
+
+        .current-date-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+        }
+
+        .month-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .month-selector select {
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .month-selector select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 30px;
+            background: var(--primary-blue);
+            border-radius: 2px;
+        }
+
+        /* Daily Log Grid */
+        .daily-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Sleep Tracker */
+        .sleep-tracker {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .sleep-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sleep-visual {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .sleep-time {
+            text-align: center;
+        }
+
+        .sleep-time-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .sleep-time-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .sleep-duration {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sleep-duration-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .sleep-duration-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .time-slider-container {
+            margin-bottom: 20px;
+        }
+
+        .time-slider-label {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .time-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .time-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .time-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: none;
+        }
+
+        /* Performance Trackers */
+        .performance-tracker {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tracker-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+        }
+
+        .tracker-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tracker-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tracker-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+
+        .tracker-unit {
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .tracker-history {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .history-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+
+        .history-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        /* Mood Tracker */
+        .mood-tracker {
+            text-align: center;
+        }
+
+        .mood-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .mood-btn {
+            background: var(--bg-light);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 20px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .mood-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .mood-btn.selected {
+            border-color: var(--primary-blue);
+            background: var(--light-blue);
+        }
+
+        .mood-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .mood-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        /* Notes Section */
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+
+        /* Habit Tracker */
+        .habits-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .habit-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .habit-item:hover {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .habit-item.completed {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+            border-left: 4px solid var(--success-green);
+        }
+
+        .habit-checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .habit-item.completed .habit-checkbox {
+            background: var(--success-green);
+            border-color: var(--success-green);
+        }
+
+        .habit-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .habit-item.completed .habit-checkbox::after {
+            opacity: 1;
+        }
+
+        .habit-info {
+            flex: 1;
+        }
+
+        .habit-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .habit-description {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* Goals */
+        .goal-input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .goal-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .goal-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+
+        .add-goal-btn {
+            padding: 12px 25px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-goal-btn:hover {
+            background: var(--dark-blue);
+            transform: scale(1.05);
+        }
+
+        .goals-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .goal-item.completed {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid var(--success-green);
+        }
+
+        .goal-text {
+            flex: 1;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .goal-item.completed .goal-text {
+            text-decoration: line-through;
+            color: var(--text-gray);
+        }
+
+        .goal-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .goal-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .complete-btn {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .complete-btn:hover {
+            background: #45a049;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Lesson Cards */
+        .lesson-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 4px solid var(--purple);
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .lesson-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+        }
+
+        .lesson-header:hover {
+            background: #f5f0ff;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--purple);
+            margin-bottom: 5px;
+        }
+
+        .lesson-date {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .lesson-toggle {
+            font-size: 1.5rem;
+            color: var(--purple);
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-card.expanded .lesson-toggle {
+            transform: rotate(180deg);
+        }
+
+        .lesson-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .lesson-card.expanded .lesson-details {
+            max-height: 2000px;
+        }
+
+        .lesson-content {
+            padding: 20px;
+            background: white;
+        }
+
+        .lesson-section {
+            margin-bottom: 20px;
+        }
+
+        .lesson-section-title {
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* Game Cards */
+        .game-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .game-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+        }
+
+        .game-header:hover {
+            background: var(--light-blue);
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-opponent {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .game-date {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .game-summary {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-top: 8px;
+        }
+
+        .game-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-toggle {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .game-card.expanded .game-toggle {
+            transform: rotate(180deg);
+        }
+
+        .game-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .game-card.expanded .game-details {
+            max-height: 3000px;
+        }
+
+        .game-content {
+            padding: 20px;
+            background: white;
+        }
+
+        .game-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .game-stat {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .game-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .game-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 5px;
+        }
+
+        .game-reflection-section {
+            margin-bottom: 20px;
+        }
+
+        .game-reflection-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* Progress Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(74, 111, 165, 0.4);
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Year Review */
+        .year-calendar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .month-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .month-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .month-stats {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Save Button */
+        .save-section {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .save-btn {
+            padding: 15px 30px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(244, 164, 96, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #e6944e;
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(244, 164, 96, 0.6);
+        }
+
+        .save-message {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--success-green);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .save-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .three-gs {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .daily-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .date-navigator {
+                flex-direction: column;
+            }
+
+            .mood-options {
+                flex-wrap: wrap;
+            }
+
+            .save-section {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="year-badge">2026</div>
+                <h1>PITCHER'S JOURNAL</h1>
+                <div class="header-tagline">Greater Than I • Be Better Than Yesterday</div>
+                <div class="three-gs">
+                    <div class="g-badge"><span>GRIT</span></div>
+                    <div class="g-badge"><span>GRATITUDE</span></div>
+                    <div class="g-badge"><span>GRACE</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date Navigator -->
+        <div class="date-navigator">
+            <div class="nav-controls">
+                <button class="nav-btn" onclick="changeDay(-1)">← Previous</button>
+                <button class="nav-btn today-btn" onclick="goToToday()">Today</button>
+                <button class="nav-btn" onclick="changeDay(1)">Next →</button>
+            </div>
+            <div class="current-date-display" id="currentDateDisplay"></div>
+            <div class="month-selector">
+                <select id="monthSelect" onchange="changeMonth()">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10">November</option>
+                    <option value="11">December</option>
+                </select>
+                <select id="daySelect" onchange="changeDay()"></select>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('daily')">📅 Daily Log</button>
+            <button class="tab-btn" onclick="switchTab('lessons')">📚 Lessons</button>
+            <button class="tab-btn" onclick="switchTab('games')">🥎 Games</button>
+            <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
+            <button class="tab-btn" onclick="switchTab('progress')">📊 Progress</button>
+            <button class="tab-btn" onclick="switchTab('year')">📖 Year Review</button>
+        </div>
+
+        <!-- Daily Log Tab -->
+        <div id="daily" class="tab-content active">
+            <div class="daily-grid">
+                <!-- Sleep Tracker -->
+                <div class="card">
+                    <div class="sleep-tracker">
+                        <div class="sleep-title">😴 Sleep Tracker</div>
+                        <div class="sleep-visual">
+                            <div class="sleep-time">
+                                <div class="sleep-time-label">Bedtime</div>
+                                <div class="sleep-time-value" id="bedtimeDisplay">10:00 PM</div>
+                            </div>
+                            <div class="sleep-time">
+                                <div class="sleep-time-label">Wake Up</div>
+                                <div class="sleep-time-value" id="wakeupDisplay">6:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="sleep-duration">
+                            <div class="sleep-duration-label">Total Sleep</div>
+                            <div class="sleep-duration-value" id="sleepDuration">8.0 hrs</div>
+                        </div>
+                        <div class="time-slider-container">
+                            <div class="time-slider-label">Bedtime</div>
+                            <input type="range" class="time-slider" id="bedtimeSlider" min="0" max="1439" value="1320" oninput="updateSleep()">
+                        </div>
+                        <div class="time-slider-container">
+                            <div class="time-slider-label">Wake Up Time</div>
+                            <input type="range" class="time-slider" id="wakeupSlider" min="0" max="1439" value="360" oninput="updateSleep()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Trackers -->
+                <div class="card">
+                    <div class="performance-tracker">
+                        <div class="tracker-header">
+                            <div class="tracker-title">⚡ Max Velocity</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="velocityInput" placeholder="Enter MPH" step="0.1">
+                            <span class="tracker-unit">MPH</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Best</div>
+                            <div class="history-value" id="velocityBest">--</div>
+                        </div>
+                    </div>
+
+                    <div class="performance-tracker" style="margin-top: 20px;">
+                        <div class="tracker-header">
+                            <div class="tracker-title">🎯 Accuracy %</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="accuracyInput" placeholder="0-100" min="0" max="100">
+                            <span class="tracker-unit">%</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Average</div>
+                            <div class="history-value" id="accuracyAvg">--</div>
+                        </div>
+                    </div>
+
+                    <div class="performance-tracker" style="margin-top: 20px;">
+                        <div class="tracker-header">
+                            <div class="tracker-title">🔄 Spin Rate</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="spinInput" placeholder="Enter RPM">
+                            <span class="tracker-unit">RPM</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Best</div>
+                            <div class="history-value" id="spinBest">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mood Tracker -->
+            <div class="card">
+                <div class="mood-tracker">
+                    <div class="mood-title">How are you feeling today?</div>
+                    <div class="mood-options" id="moodOptions">
+                        <div class="mood-btn" data-mood="amazing" onclick="selectMood('amazing')">
+                            <div class="mood-emoji">🤩</div>
+                            <div class="mood-label">Amazing</div>
+                        </div>
+                        <div class="mood-btn" data-mood="good" onclick="selectMood('good')">
+                            <div class="mood-emoji">😊</div>
+                            <div class="mood-label">Good</div>
+                        </div>
+                        <div class="mood-btn" data-mood="okay" onclick="selectMood('okay')">
+                            <div class="mood-emoji">😐</div>
+                            <div class="mood-label">Okay</div>
+                        </div>
+                        <div class="mood-btn" data-mood="struggling" onclick="selectMood('struggling')">
+                            <div class="mood-emoji">😔</div>
+                            <div class="mood-label">Struggling</div>
+                        </div>
+                        <div class="mood-btn" data-mood="tough" onclick="selectMood('tough')">
+                            <div class="mood-emoji">😫</div>
+                            <div class="mood-label">Tough Day</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Habits -->
+            <div class="card">
+                <div class="card-title">Daily Habits</div>
+                <div class="habits-grid" id="habitsGrid"></div>
+            </div>
+
+            <!-- Daily Notes -->
+            <div class="card">
+                <div class="card-title">Training Notes & Reflections</div>
+                <textarea class="notes-textarea" id="dailyNotes" placeholder="What did you work on today? What felt good? What needs work? Any breakthroughs or challenges?"></textarea>
+                
+                <div class="notes-section">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 10px;">What are you grateful for today?</h3>
+                    <textarea class="notes-textarea" id="gratitudeNotes" placeholder="Write three things you're grateful for..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons Tab -->
+        <div id="lessons" class="tab-content">
+            <div class="card">
+                <div class="card-title">📚 Lesson Log</div>
+                <div class="goal-input-section">
+                    <input type="date" class="goal-input" id="lessonDate" style="max-width: 200px;">
+                    <button class="add-goal-btn" onclick="addLesson()">+ Add Lesson</button>
+                </div>
+                <div class="goals-list" id="lessonsList"></div>
+            </div>
+        </div>
+
+        <!-- Games Tab -->
+        <div id="games" class="tab-content">
+            <div class="card">
+                <div class="card-title">🥎 Game Log</div>
+                <div class="goal-input-section">
+                    <input type="text" class="goal-input" id="gameOpponent" placeholder="Opponent name...">
+                    <button class="add-goal-btn" onclick="addGame()">+ Add Game</button>
+                </div>
+                <div class="goals-list" id="gamesList"></div>
+            </div>
+        </div>
+
+        <!-- Goals Tab -->
+        <div id="goals" class="tab-content">
+            <div class="card">
+                <div class="card-title">2026 Goals</div>
+                <div class="goal-input-section">
+                    <input type="text" class="goal-input" id="goalInput" placeholder="Enter a new goal for 2026...">
+                    <button class="add-goal-btn" onclick="addGoal()">+ Add Goal</button>
+                </div>
+                <div class="goals-list" id="goalsList"></div>
+            </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div id="progress" class="tab-content">
+            <div class="card">
+                <div class="card-title">Your 2026 Progress</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDays">0</div>
+                        <div class="stat-label">Days Logged</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="streakDays">0</div>
+                        <div class="stat-label">Current Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="habitsCompleted">0</div>
+                        <div class="stat-label">Habits Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgSleep">0</div>
+                        <div class="stat-label">Avg Sleep (hrs)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bestVelocity">--</div>
+                        <div class="stat-label">Best Velocity</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgAccuracy">--</div>
+                        <div class="stat-label">Avg Accuracy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Year Review Tab -->
+        <div id="year" class="tab-content">
+            <div class="card">
+                <div class="card-title">2026 Year in Review</div>
+                <div class="year-calendar" id="yearCalendar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="save-section">
+        <button class="save-btn" onclick="saveJournal()">💾 Save</button>
+    </div>
+    <div class="save-message" id="saveMessage">Journal saved!</div>
+
+    <script>
+        // Initialize journal data
+        let journalData = {
+            currentDate: new Date(2026, 0, 1), // January 1, 2026
+            dailyLogs: {},
+            goals: [],
+            games: [],
+            lessons: [],
+            habits: [
+                { id: 1, name: 'Morning Visualization', description: 'Visualize 3 perfect pitches' },
+                { id: 2, name: 'Mobility Work', description: '15 minutes of stretching' },
+                { id: 3, name: 'Bullpen/Practice', description: 'Focused training session' },
+                { id: 4, name: 'Video Review', description: 'Analyze mechanics' },
+                { id: 5, name: 'Mental Training', description: 'Breathing & mindset work' },
+                { id: 6, name: 'Hydration', description: 'Drank 64+ oz of water' },
+                { id: 7, name: 'Recovery', description: 'Prioritized rest' }
+            ]
+        };
+
+        // Load saved data
+        function loadJournal() {
+            const saved = localStorage.getItem('pitcherJournal2026');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                journalData = {
+                    ...parsed,
+                    currentDate: new Date(parsed.currentDate)
+                };
+            }
+            updateDateDisplay();
+            loadDailyData();
+            renderGoals();
+        }
+
+        // Save data
+        function saveJournal() {
+            saveDailyData();
+            localStorage.setItem('pitcherJournal2026', JSON.stringify(journalData));
+            const message = document.getElementById('saveMessage');
+            message.classList.add('show');
+            setTimeout(() => message.classList.remove('show'), 2000);
+        }
+
+        // Get date key
+        function getDateKey(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        // Get current daily log
+        function getCurrentDailyLog() {
+            const key = getDateKey(journalData.currentDate);
+            if (!journalData.dailyLogs[key]) {
+                journalData.dailyLogs[key] = {
+                    bedtime: 1320, // 10:00 PM
+                    wakeup: 360,   // 6:00 AM
+                    velocity: null,
+                    accuracy: null,
+                    spin: null,
+                    mood: null,
+                    habits: {},
+                    notes: '',
+                    gratitude: ''
+                };
+            }
+            return journalData.dailyLogs[key];
+        }
+
+        // Update date display
+        function updateDateDisplay() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDateDisplay').textContent = 
+                journalData.currentDate.toLocaleDateString('en-US', options);
+            
+            // Update month/day selectors
+            document.getElementById('monthSelect').value = journalData.currentDate.getMonth();
+            updateDaySelector();
+        }
+
+        // Update day selector
+        function updateDaySelector() {
+            const daySelect = document.getElementById('daySelect');
+            const year = journalData.currentDate.getFullYear();
+            const month = journalData.currentDate.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            daySelect.innerHTML = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                daySelect.appendChild(option);
+            }
+            daySelect.value = journalData.currentDate.getDate();
+        }
+
+        // Change day
+        function changeDay(delta) {
+            if (delta === undefined) {
+                // Called from day selector
+                const newDay = parseInt(document.getElementById('daySelect').value);
+                journalData.currentDate.setDate(newDay);
+            } else {
+                saveDailyData();
+                journalData.currentDate.setDate(journalData.currentDate.getDate() + delta);
+            }
+            updateDateDisplay();
+            loadDailyData();
+        }
+
+        // Change month
+        function changeMonth() {
+            saveDailyData();
+            const newMonth = parseInt(document.getElementById('monthSelect').value);
+            journalData.currentDate.setMonth(newMonth);
+            journalData.currentDate.setDate(1); // Reset to first day of month
+            updateDateDisplay();
+            loadDailyData();
+        }
+
+        // Go to today
+        function goToToday() {
+            saveDailyData();
+            journalData.currentDate = new Date();
+            // Ensure we're in 2026
+            if (journalData.currentDate.getFullYear() !== 2026) {
+                journalData.currentDate = new Date(2026, 0, 1);
+            }
+            updateDateDisplay();
+            loadDailyData();
+        }
+
+        // Load daily data
+        function loadDailyData() {
+            const log = getCurrentDailyLog();
+            
+            // Sleep
+            document.getElementById('bedtimeSlider').value = log.bedtime;
+            document.getElementById('wakeupSlider').value = log.wakeup;
+            updateSleep();
+            
+            // Performance
+            document.getElementById('velocityInput').value = log.velocity || '';
+            document.getElementById('accuracyInput').value = log.accuracy || '';
+            document.getElementById('spinInput').value = log.spin || '';
+            
+            // Mood
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+            if (log.mood) {
+                const moodBtn = document.querySelector(`[data-mood="${log.mood}"]`);
+                if (moodBtn) moodBtn.classList.add('selected');
+            }
+            
+            // Habits
+            renderHabits();
+            
+            // Notes
+            document.getElementById('dailyNotes').value = log.notes || '';
+            document.getElementById('gratitudeNotes').value = log.gratitude || '';
+            
+            // Update bests
+            updateBests();
+        }
+
+        // Save daily data
+        function saveDailyData() {
+            const log = getCurrentDailyLog();
+            
+            log.bedtime = parseInt(document.getElementById('bedtimeSlider').value);
+            log.wakeup = parseInt(document.getElementById('wakeupSlider').value);
+            log.velocity = parseFloat(document.getElementById('velocityInput').value) || null;
+            log.accuracy = parseFloat(document.getElementById('accuracyInput').value) || null;
+            log.spin = parseFloat(document.getElementById('spinInput').value) || null;
+            log.notes = document.getElementById('dailyNotes').value;
+            log.gratitude = document.getElementById('gratitudeNotes').value;
+        }
+
+        // Update sleep display
+        function updateSleep() {
+            const bedtime = parseInt(document.getElementById('bedtimeSlider').value);
+            const wakeup = parseInt(document.getElementById('wakeupSlider').value);
+            
+            // Convert minutes to time
+            const bedHour = Math.floor(bedtime / 60);
+            const bedMin = bedtime % 60;
+            const wakeHour = Math.floor(wakeup / 60);
+            const wakeMin = wakeup % 60;
+            
+            const bedAmPm = bedHour >= 12 ? 'PM' : 'AM';
+            const wakeAmPm = wakeHour >= 12 ? 'PM' : 'AM';
+            const bedDisplay = `${bedHour % 12 || 12}:${bedMin.toString().padStart(2, '0')} ${bedAmPm}`;
+            const wakeDisplay = `${wakeHour % 12 || 12}:${wakeMin.toString().padStart(2, '0')} ${wakeAmPm}`;
+            
+            document.getElementById('bedtimeDisplay').textContent = bedDisplay;
+            document.getElementById('wakeupDisplay').textContent = wakeDisplay;
+            
+            // Calculate duration
+            let duration = wakeup - bedtime;
+            if (duration < 0) duration += 1440; // Add 24 hours if negative
+            const hours = (duration / 60).toFixed(1);
+            
+            document.getElementById('sleepDuration').textContent = `${hours} hrs`;
+        }
+
+        // Select mood
+        function selectMood(mood) {
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelector(`[data-mood="${mood}"]`).classList.add('selected');
+            const log = getCurrentDailyLog();
+            log.mood = mood;
+            saveJournal();
+        }
+
+        // Render habits
+        function renderHabits() {
+            const log = getCurrentDailyLog();
+            const habitsGrid = document.getElementById('habitsGrid');
+            
+            habitsGrid.innerHTML = journalData.habits.map(habit => {
+                const isCompleted = log.habits[habit.id] || false;
+                return `
+                    <div class="habit-item ${isCompleted ? 'completed' : ''}" onclick="toggleHabit(${habit.id})">
+                        <div class="habit-checkbox"></div>
+                        <div class="habit-info">
+                            <div class="habit-name">${habit.name}</div>
+                            <div class="habit-description">${habit.description}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle habit
+        function toggleHabit(habitId) {
+            const log = getCurrentDailyLog();
+            log.habits[habitId] = !log.habits[habitId];
+            renderHabits();
+            saveJournal();
+        }
+
+        // Update bests
+        function updateBests() {
+            let maxVelocity = 0;
+            let totalAccuracy = 0;
+            let accuracyCount = 0;
+            let maxSpin = 0;
+            
+            Object.values(journalData.dailyLogs).forEach(log => {
+                if (log.velocity && log.velocity > maxVelocity) maxVelocity = log.velocity;
+                if (log.accuracy) {
+                    totalAccuracy += log.accuracy;
+                    accuracyCount++;
+                }
+                if (log.spin && log.spin > maxSpin) maxSpin = log.spin;
+            });
+            
+            document.getElementById('velocityBest').textContent = maxVelocity ? `${maxVelocity} MPH` : '--';
+            document.getElementById('accuracyAvg').textContent = accuracyCount ? `${(totalAccuracy / accuracyCount).toFixed(1)}%` : '--';
+            document.getElementById('spinBest').textContent = maxSpin ? `${maxSpin} RPM` : '--';
+        }
+
+        // Lessons Management
+        function renderLessons() {
+            const lessonsList = document.getElementById('lessonsList');
+            
+            if (journalData.lessons.length === 0) {
+                lessonsList.innerHTML = '<div style="text-align: center; color: var(--text-gray); padding: 20px;">No lessons logged yet. Add your first lesson!</div>';
+                return;
+            }
+            
+            // Sort lessons by date (newest first)
+            const sortedLessons = [...journalData.lessons].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            lessonsList.innerHTML = sortedLessons.map(lesson => {
+                const lessonDate = new Date(lesson.date);
+                const dateStr = lessonDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+                
+                return `
+                    <div class="lesson-card" id="lesson-${lesson.id}">
+                        <div class="lesson-header" onclick="toggleLesson(${lesson.id})">
+                            <div class="lesson-info">
+                                <div class="lesson-title">📚 Lesson</div>
+                                <div class="lesson-date">${dateStr}</div>
+                            </div>
+                            <div class="lesson-toggle">▼</div>
+                        </div>
+                        <div class="lesson-details">
+                            <div class="lesson-content">
+                                <div class="lesson-section">
+                                    <div class="lesson-section-title">What did we work on?</div>
+                                    <textarea class="notes-textarea" onblur="updateLessonNote(${lesson.id}, 'focus', this.value)" 
+                                              placeholder="Mechanics worked on, drills practiced, new skills introduced...">${lesson.focus || ''}</textarea>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <div class="lesson-section-title">Key Takeaways</div>
+                                    <textarea class="notes-textarea" onblur="updateLessonNote(${lesson.id}, 'takeaways', this.value)" 
+                                              placeholder="Most important things to remember from today's lesson...">${lesson.takeaways || ''}</textarea>
+                                </div>
+                                
+                                <div class="lesson-section">
+                                    <div class="lesson-section-title">Practice Focus for Next Session</div>
+                                    <textarea class="notes-textarea" onblur="updateLessonNote(${lesson.id}, 'homework', this.value)" 
+                                              placeholder="What should I work on before the next lesson?">${lesson.homework || ''}</textarea>
+                                </div>
+                            </div>
+                            <div class="lesson-actions">
+                                <button class="goal-btn delete-btn" onclick="deleteLesson(${lesson.id})">Delete Lesson</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addLesson() {
+            const dateInput = document.getElementById('lessonDate');
+            let lessonDate = dateInput.value ? new Date(dateInput.value) : new Date(journalData.currentDate);
+            
+            journalData.lessons.push({
+                id: Date.now(),
+                date: lessonDate.toISOString(),
+                focus: '',
+                takeaways: '',
+                homework: ''
+            });
+            dateInput.value = '';
+            saveJournal();
+            renderLessons();
+        }
+
+        function toggleLesson(lessonId) {
+            const lessonCard = document.getElementById(`lesson-${lessonId}`);
+            lessonCard.classList.toggle('expanded');
+        }
+
+        function updateLessonNote(lessonId, field, value) {
+            const lesson = journalData.lessons.find(l => l.id === lessonId);
+            if (lesson) {
+                lesson[field] = value;
+                saveJournal();
+            }
+        }
+
+        function deleteLesson(lessonId) {
+            if (confirm('Are you sure you want to delete this lesson?')) {
+                journalData.lessons = journalData.lessons.filter(l => l.id !== lessonId);
+                saveJournal();
+                renderLessons();
+            }
+        }
+
+        // Games Management
+        function renderGames() {
+            const gamesList = document.getElementById('gamesList');
+            
+            if (journalData.games.length === 0) {
+                gamesList.innerHTML = '<div style="text-align: center; color: var(--text-gray); padding: 20px;">No games logged yet. Add your first game!</div>';
+                return;
+            }
+            
+            // Sort games by date (newest first)
+            const sortedGames = [...journalData.games].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            gamesList.innerHTML = sortedGames.map(game => {
+                const gameDate = new Date(game.date);
+                const dateStr = gameDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                
+                return `
+                    <div class="game-card" id="game-${game.id}">
+                        <div class="game-header" onclick="toggleGame(${game.id})">
+                            <div class="game-info">
+                                <div class="game-opponent">🥎 vs ${game.opponent}</div>
+                                <div class="game-date">${dateStr}</div>
+                                ${game.inningsPitched ? `
+                                    <div class="game-summary">
+                                        <div class="game-summary-item">${game.inningsPitched} IP</div>
+                                        <div class="game-summary-item">${game.strikeouts || 0} K</div>
+                                        <div class="game-summary-item">${game.earnedRuns || 0} ER</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="game-toggle">▼</div>
+                        </div>
+                        <div class="game-details">
+                            <div class="game-content">
+                                <div class="game-stats-grid">
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.inningsPitched || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'inningsPitched', this.value)" 
+                                               placeholder="0.0" step="0.1">
+                                        <div class="game-stat-label">Innings Pitched</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.strikeouts || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'strikeouts', this.value)" 
+                                               placeholder="0">
+                                        <div class="game-stat-label">Strikeouts</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.walks || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'walks', this.value)" 
+                                               placeholder="0">
+                                        <div class="game-stat-label">Walks</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.hits || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'hits', this.value)" 
+                                               placeholder="0">
+                                        <div class="game-stat-label">Hits</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.runsAllowed || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'runsAllowed', this.value)" 
+                                               placeholder="0">
+                                        <div class="game-stat-label">Runs</div>
+                                    </div>
+                                    <div class="game-stat">
+                                        <input type="number" class="tracker-input" value="${game.earnedRuns || ''}" 
+                                               onblur="updateGameStat(${game.id}, 'earnedRuns', this.value)" 
+                                               placeholder="0">
+                                        <div class="game-stat-label">Earned Runs</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="game-reflection-section">
+                                    <div class="game-reflection-title">What went well?</div>
+                                    <textarea class="notes-textarea" onblur="updateGameReflection(${game.id}, 'positives', this.value)" 
+                                              placeholder="What did you do well? Which pitches were working?">${game.positives || ''}</textarea>
+                                </div>
+                                
+                                <div class="game-reflection-section">
+                                    <div class="game-reflection-title">What challenged me?</div>
+                                    <textarea class="notes-textarea" onblur="updateGameReflection(${game.id}, 'challenges', this.value)" 
+                                              placeholder="What was difficult? What didn't work?">${game.challenges || ''}</textarea>
+                                </div>
+                                
+                                <div class="game-reflection-section">
+                                    <div class="game-reflection-title">Lessons Learned</div>
+                                    <textarea class="notes-textarea" onblur="updateGameReflection(${game.id}, 'lessons', this.value)" 
+                                              placeholder="What will you take from this game?">${game.lessons || ''}</textarea>
+                                </div>
+                            </div>
+                            <div class="game-actions">
+                                <button class="goal-btn delete-btn" onclick="deleteGame(${game.id})">Delete Game</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addGame() {
+            const input = document.getElementById('gameOpponent');
+            const opponent = input.value.trim();
+            
+            if (opponent) {
+                journalData.games.push({
+                    id: Date.now(),
+                    opponent: opponent,
+                    date: journalData.currentDate.toISOString(),
+                    inningsPitched: null,
+                    strikeouts: null,
+                    walks: null,
+                    hits: null,
+                    runsAllowed: null,
+                    earnedRuns: null,
+                    positives: '',
+                    challenges: '',
+                    lessons: ''
+                });
+                input.value = '';
+                saveJournal();
+                renderGames();
+            }
+        }
+
+        function toggleGame(gameId) {
+            const gameCard = document.getElementById(`game-${gameId}`);
+            gameCard.classList.toggle('expanded');
+        }
+
+        function updateGameStat(gameId, field, value) {
+            const game = journalData.games.find(g => g.id === gameId);
+            if (game) {
+                game[field] = value ? parseFloat(value) : null;
+                saveJournal();
+                renderGames();
+            }
+        }
+
+        function updateGameReflection(gameId, field, value) {
+            const game = journalData.games.find(g => g.id === gameId);
+            if (game) {
+                game[field] = value;
+                saveJournal();
+            }
+        }
+
+        function deleteGame(gameId) {
+            if (confirm('Are you sure you want to delete this game?')) {
+                journalData.games = journalData.games.filter(g => g.id !== gameId);
+                saveJournal();
+                renderGames();
+            }
+        }
+
+        // Goals
+        function renderGoals() {
+            const goalsList = document.getElementById('goalsList');
+            
+            if (journalData.goals.length === 0) {
+                goalsList.innerHTML = '<div style="text-align: center; color: var(--text-gray); padding: 20px;">No goals yet. Add your first goal for 2026!</div>';
+                return;
+            }
+            
+            goalsList.innerHTML = journalData.goals.map(goal => `
+                <div class="goal-item ${goal.completed ? 'completed' : ''}">
+                    <div class="goal-text">${goal.text}</div>
+                    <div class="goal-actions">
+                        ${!goal.completed ? `<button class="goal-btn complete-btn" onclick="completeGoal(${goal.id})">Complete</button>` : ''}
+                        <button class="goal-btn delete-btn" onclick="deleteGoal(${goal.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addGoal() {
+            const input = document.getElementById('goalInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                journalData.goals.push({
+                    id: Date.now(),
+                    text: text,
+                    completed: false,
+                    createdAt: new Date().toISOString()
+                });
+                input.value = '';
+                saveJournal();
+                renderGoals();
+            }
+        }
+
+        function completeGoal(goalId) {
+            const goal = journalData.goals.find(g => g.id === goalId);
+            if (goal) {
+                goal.completed = true;
+                saveJournal();
+                renderGoals();
+            }
+        }
+
+        function deleteGoal(goalId) {
+            journalData.goals = journalData.goals.filter(g => g.id !== goalId);
+            saveJournal();
+            renderGoals();
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (tabName === 'progress') {
+                updateProgress();
+            } else if (tabName === 'year') {
+                renderYearReview();
+            } else if (tabName === 'games') {
+                renderGames();
+            } else if (tabName === 'lessons') {
+                renderLessons();
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            const totalDays = Object.keys(journalData.dailyLogs).length;
+            document.getElementById('totalDays').textContent = totalDays;
+            
+            // Calculate streak
+            let streak = 0;
+            const today = new Date(journalData.currentDate);
+            for (let i = 0; i < 365; i++) {
+                const checkDate = new Date(today);
+                checkDate.setDate(today.getDate() - i);
+                const key = getDateKey(checkDate);
+                
+                if (journalData.dailyLogs[key]) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            document.getElementById('streakDays').textContent = streak;
+            
+            // Count total habits
+            let totalHabits = 0;
+            Object.values(journalData.dailyLogs).forEach(log => {
+                Object.values(log.habits).forEach(completed => {
+                    if (completed) totalHabits++;
+                });
+            });
+            document.getElementById('habitsCompleted').textContent = totalHabits;
+            
+            // Average sleep
+            let totalSleep = 0;
+            let sleepCount = 0;
+            Object.values(journalData.dailyLogs).forEach(log => {
+                let duration = log.wakeup - log.bedtime;
+                if (duration < 0) duration += 1440;
+                totalSleep += duration / 60;
+                sleepCount++;
+            });
+            document.getElementById('avgSleep').textContent = sleepCount ? (totalSleep / sleepCount).toFixed(1) : '0';
+            
+            // Best velocity
+            let maxVelocity = 0;
+            Object.values(journalData.dailyLogs).forEach(log => {
+                if (log.velocity && log.velocity > maxVelocity) maxVelocity = log.velocity;
+            });
+            document.getElementById('bestVelocity').textContent = maxVelocity ? maxVelocity.toFixed(1) : '--';
+            
+            // Average accuracy
+            let totalAccuracy = 0;
+            let accuracyCount = 0;
+            Object.values(journalData.dailyLogs).forEach(log => {
+                if (log.accuracy) {
+                    totalAccuracy += log.accuracy;
+                    accuracyCount++;
+                }
+            });
+            document.getElementById('avgAccuracy').textContent = accuracyCount ? `${(totalAccuracy / accuracyCount).toFixed(1)}%` : '--';
+        }
+
+        // Render year review
+        function renderYearReview() {
+            const yearCalendar = document.getElementById('yearCalendar');
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            yearCalendar.innerHTML = months.map((month, index) => {
+                // Count logs for this month
+                let logsCount = 0;
+                let habitsCount = 0;
+                Object.entries(journalData.dailyLogs).forEach(([key, log]) => {
+                    const date = new Date(key);
+                    if (date.getMonth() === index && date.getFullYear() === 2026) {
+                        logsCount++;
+                        Object.values(log.habits).forEach(completed => {
+                            if (completed) habitsCount++;
+                        });
+                    }
+                });
+                
+                return `
+                    <div class="month-card">
+                        <div class="month-name">${month}</div>
+                        <div class="month-stats">
+                            📝 ${logsCount} days logged<br>
+                            ✓ ${habitsCount} habits completed
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Auto-save on input changes
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJournal();
+            
+            // Add auto-save for inputs
+            ['velocityInput', 'accuracyInput', 'spinInput', 'dailyNotes', 'gratitudeNotes'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('blur', saveJournal);
+                }
+            });
+            
+            // Set default lesson date to today
+            const lessonDateInput = document.getElementById('lessonDate');
+            if (lessonDateInput) {
+                lessonDateInput.value = journalData.currentDate.toISOString().split('T')[0];
+            }
+            
+            // Game opponent input Enter key
+            const gameInput = document.getElementById('gameOpponent');
+            if (gameInput) {
+                gameInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addGame();
+                    }
+                });
+            }
+            
+            // Goal input Enter key
+            document.getElementById('goalInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addGoal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
