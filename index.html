@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greater Than I - 2026 Pitcher's Journal</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -288,6 +289,13 @@
             border-radius: 2px;
         }
 
+        /* Daily Log Grid */
+        .daily-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
         /* Sleep Tracker */
         .sleep-tracker {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -458,13 +466,6 @@
             font-family: 'Bebas Neue', cursive;
         }
 
-        /* Daily Grid */
-        .daily-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
         /* Mood Tracker */
         .mood-tracker {
             text-align: center;
@@ -514,7 +515,35 @@
             color: var(--text-gray);
         }
 
-        /* Daily Habits */
+        /* Notes Section */
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+
+        /* Habit Tracker */
+        .habits-grid {
+            display: grid;
+            gap: 12px;
+        }
+
         .habit-item {
             display: flex;
             align-items: center;
@@ -524,7 +553,6 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             cursor: pointer;
-            margin-bottom: 12px;
         }
 
         .habit-item:hover {
@@ -547,7 +575,6 @@
             justify-content: center;
             transition: all 0.3s ease;
             margin-right: 15px;
-            flex-shrink: 0;
         }
 
         .habit-item.completed .habit-checkbox {
@@ -584,281 +611,54 @@
             color: var(--text-gray);
         }
 
-        /* Mental Prompts */
-        .mental-prompt {
-            background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--primary-blue);
-        }
-
-        .prompt-text {
-            font-weight: 600;
-            color: var(--primary-blue);
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-
-        .prompt-input {
-            width: 100%;
-            min-height: 100px;
-            padding: 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-family: 'Work Sans', sans-serif;
-            font-size: 0.95rem;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        .prompt-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-        }
-
-        /* Practice Categories */
-        .practice-categories {
-            display: grid;
-            gap: 20px;
-        }
-
-        .category-section {
+        /* Habit Progress Bars */
+        .habit-progress-item {
             background: var(--bg-light);
             padding: 20px;
             border-radius: 12px;
-            border-left: 4px solid var(--orange);
+            transition: all 0.3s ease;
         }
 
-        .category-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--orange);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .category-title::after {
-            content: '▼';
-            font-size: 0.8rem;
-            transition: transform 0.3s ease;
-        }
-
-        .category-section.collapsed .category-title::after {
-            transform: rotate(-90deg);
-        }
-
-        .category-items {
-            display: grid;
-            gap: 10px;
-            max-height: 1000px;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .category-section.collapsed .category-items {
-            max-height: 0;
-        }
-
-        .practice-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
+        .habit-progress-item:hover {
             background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .practice-item:hover {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .practice-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--border-color);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .practice-item.checked .practice-checkbox {
-            background: var(--orange);
-            border-color: var(--orange);
-        }
-
-        .practice-checkbox::after {
-            content: '✓';
-            color: white;
-            font-size: 1rem;
-            font-weight: 700;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .practice-item.checked .practice-checkbox::after {
-            opacity: 1;
-        }
-
-        .practice-name {
-            font-size: 0.95rem;
-            color: var(--text-dark);
-        }
-
-        /* Lesson/Game Cards */
-        .lesson-card, .game-card {
-            background: var(--bg-light);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .lesson-card {
-            border-left: 4px solid var(--purple);
-        }
-
-        .game-card {
-            border-left: 4px solid var(--primary-blue);
-        }
-
-        .lesson-card:hover, .game-card:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .lesson-header, .game-header {
-            padding: 20px;
+        .habit-progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            background: white;
-        }
-
-        .lesson-header:hover {
-            background: #f5f0ff;
-        }
-
-        .game-header:hover {
-            background: var(--light-blue);
-        }
-
-        .lesson-info, .game-info {
-            flex: 1;
-        }
-
-        .lesson-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--purple);
-            margin-bottom: 5px;
-        }
-
-        .game-opponent {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-            margin-bottom: 5px;
-        }
-
-        .lesson-date, .game-date {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-        }
-
-        .game-summary {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-top: 8px;
-        }
-
-        .lesson-toggle, .game-toggle {
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .lesson-toggle {
-            color: var(--purple);
-        }
-
-        .game-toggle {
-            color: var(--primary-blue);
-        }
-
-        .lesson-card.expanded .lesson-toggle,
-        .game-card.expanded .game-toggle {
-            transform: rotate(180deg);
-        }
-
-        .lesson-details, .game-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .lesson-card.expanded .lesson-details,
-        .game-card.expanded .game-details {
-            max-height: 2000px;
-        }
-
-        .lesson-content, .game-content {
-            padding: 20px;
-            background: white;
-        }
-
-        .lesson-section, .game-reflection-section {
-            margin-bottom: 20px;
-        }
-
-        .lesson-section-title, .game-reflection-title {
-            font-weight: 700;
             margin-bottom: 10px;
-            font-size: 1.05rem;
         }
 
-        .lesson-section-title {
-            color: var(--purple);
+        .habit-progress-name {
+            font-weight: 600;
+            color: var(--text-dark);
         }
 
-        .game-reflection-title {
+        .habit-progress-count {
+            font-weight: 700;
             color: var(--primary-blue);
+            font-size: 1.1rem;
         }
 
-        .lesson-actions, .game-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            padding: 15px 20px;
-            background: var(--bg-light);
-            border-top: 2px solid var(--border-color);
-        }
-
-        .game-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .game-stat {
-            background: var(--bg-light);
-            padding: 15px;
+        .habit-progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
             border-radius: 10px;
-            text-align: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        .game-stat-label {
+        .habit-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .habit-progress-percentage {
             font-size: 0.85rem;
             color: var(--text-gray);
             margin-top: 5px;
@@ -966,6 +766,223 @@
             background: #c0392b;
         }
 
+        /* Lesson Cards */
+        .lesson-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 4px solid var(--purple);
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .lesson-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+        }
+
+        .lesson-header:hover {
+            background: #f5f0ff;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--purple);
+            margin-bottom: 5px;
+        }
+
+        .lesson-date {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .lesson-toggle {
+            font-size: 1.5rem;
+            color: var(--purple);
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-card.expanded .lesson-toggle {
+            transform: rotate(180deg);
+        }
+
+        .lesson-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .lesson-card.expanded .lesson-details {
+            max-height: 2000px;
+        }
+
+        .lesson-content {
+            padding: 20px;
+            background: white;
+        }
+
+        .lesson-section {
+            margin-bottom: 20px;
+        }
+
+        .lesson-section-title {
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* Game Cards */
+        .game-card {
+            background: var(--bg-light);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .game-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+        }
+
+        .game-header:hover {
+            background: var(--light-blue);
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-opponent {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .game-date {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .game-summary {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-top: 8px;
+        }
+
+        .game-summary-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-toggle {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .game-card.expanded .game-toggle {
+            transform: rotate(180deg);
+        }
+
+        .game-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .game-card.expanded .game-details {
+            max-height: 3000px;
+        }
+
+        .game-content {
+            padding: 20px;
+            background: white;
+        }
+
+        .game-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .game-stat {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .game-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .game-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 5px;
+        }
+
+        .game-reflection-section {
+            margin-bottom: 20px;
+        }
+
+        .game-reflection-title {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: var(--bg-light);
+            border-top: 2px solid var(--border-color);
+        }
+
         /* Progress Stats */
         .stats-grid {
             display: grid;
@@ -1028,25 +1045,6 @@
             font-size: 0.9rem;
             color: var(--text-gray);
             line-height: 1.6;
-        }
-
-        /* Notes Textarea */
-        .notes-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-family: 'Work Sans', sans-serif;
-            font-size: 0.95rem;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-
-        .notes-textarea:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
         }
 
         /* Save Button */
@@ -1182,9 +1180,7 @@
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('daily')">📝 Daily Journal</button>
-            <button class="tab-btn" onclick="switchTab('practice')">💪 Independent Practice</button>
-            <button class="tab-btn" onclick="switchTab('performance')">⚡ Performance Metrics</button>
+            <button class="tab-btn active" onclick="switchTab('daily')">📅 Daily Log</button>
             <button class="tab-btn" onclick="switchTab('lessons')">📚 Lessons</button>
             <button class="tab-btn" onclick="switchTab('games')">🥎 Games</button>
             <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
@@ -1192,33 +1188,94 @@
             <button class="tab-btn" onclick="switchTab('year')">📖 Year Review</button>
         </div>
 
-        <!-- Daily Journal Tab -->
+        <!-- Daily Log Tab -->
         <div id="daily" class="tab-content active">
-            <!-- Sleep Tracker -->
-            <div class="card">
-                <div class="sleep-tracker">
-                    <div class="sleep-title">😴 Sleep Tracker</div>
-                    <div class="sleep-visual">
-                        <div class="sleep-time">
-                            <div class="sleep-time-label">Bedtime</div>
-                            <div class="sleep-time-value" id="bedtimeDisplay">10:00 PM</div>
+            <div class="daily-grid">
+                <!-- Sleep Tracker -->
+                <div class="card">
+                    <div class="sleep-tracker">
+                        <div class="sleep-title">😴 Sleep Tracker</div>
+                        <div class="sleep-visual">
+                            <div class="sleep-time">
+                                <div class="sleep-time-label">Bedtime</div>
+                                <div class="sleep-time-value" id="bedtimeDisplay">10:00 PM</div>
+                            </div>
+                            <div class="sleep-time">
+                                <div class="sleep-time-label">Wake Up</div>
+                                <div class="sleep-time-value" id="wakeupDisplay">6:00 AM</div>
+                            </div>
                         </div>
-                        <div class="sleep-time">
-                            <div class="sleep-time-label">Wake Up</div>
-                            <div class="sleep-time-value" id="wakeupDisplay">6:00 AM</div>
+                        <div class="sleep-duration">
+                            <div class="sleep-duration-label">Total Sleep</div>
+                            <div class="sleep-duration-value" id="sleepDuration">8.0 hrs</div>
+                        </div>
+                        <div class="time-slider-container">
+                            <div class="time-slider-label">Bedtime</div>
+                            <input type="range" class="time-slider" id="bedtimeSlider" min="0" max="1439" value="1320" oninput="updateSleep()">
+                        </div>
+                        <div class="time-slider-container">
+                            <div class="time-slider-label">Wake Up Time</div>
+                            <input type="range" class="time-slider" id="wakeupSlider" min="0" max="1439" value="360" oninput="updateSleep()">
                         </div>
                     </div>
-                    <div class="sleep-duration">
-                        <div class="sleep-duration-label">Total Sleep</div>
-                        <div class="sleep-duration-value" id="sleepDuration">8.0 hrs</div>
+                </div>
+
+                <!-- Performance Trackers -->
+                <div class="card">
+                    <div class="performance-tracker">
+                        <div class="tracker-header">
+                            <div class="tracker-title">⚡ Max Velocity</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="velocityInput" placeholder="Enter MPH" step="0.1">
+                            <span class="tracker-unit">MPH</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Best</div>
+                            <div class="history-value" id="velocityBest">--</div>
+                        </div>
                     </div>
-                    <div class="time-slider-container">
-                        <div class="time-slider-label">Bedtime</div>
-                        <input type="range" class="time-slider" id="bedtimeSlider" min="0" max="1439" value="1320" oninput="updateSleep()">
+
+                    <div class="performance-tracker" style="margin-top: 20px;">
+                        <div class="tracker-header">
+                            <div class="tracker-title">📊 Average Velocity</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="avgVelocityInput" placeholder="Enter MPH" step="0.1">
+                            <span class="tracker-unit">MPH</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Average</div>
+                            <div class="history-value" id="avgVelocityAvg">--</div>
+                        </div>
                     </div>
-                    <div class="time-slider-container">
-                        <div class="time-slider-label">Wake Up Time</div>
-                        <input type="range" class="time-slider" id="wakeupSlider" min="0" max="1439" value="360" oninput="updateSleep()">
+
+                    <div class="performance-tracker" style="margin-top: 20px;">
+                        <div class="tracker-header">
+                            <div class="tracker-title">🎯 Accuracy %</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="accuracyInput" placeholder="0-100" min="0" max="100">
+                            <span class="tracker-unit">%</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Average</div>
+                            <div class="history-value" id="accuracyAvg">--</div>
+                        </div>
+                    </div>
+
+                    <div class="performance-tracker" style="margin-top: 20px;">
+                        <div class="tracker-header">
+                            <div class="tracker-title">🔄 Spin Rate</div>
+                        </div>
+                        <div class="tracker-input-group">
+                            <input type="number" class="tracker-input" id="spinInput" placeholder="Enter RPM">
+                            <span class="tracker-unit">RPM</span>
+                        </div>
+                        <div class="tracker-history">
+                            <div class="history-label">Season Best</div>
+                            <div class="history-value" id="spinBest">--</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1255,89 +1312,17 @@
             <!-- Daily Habits -->
             <div class="card">
                 <div class="card-title">Daily Habits</div>
-                <div id="habitsGrid"></div>
+                <div class="habits-grid" id="habitsGrid"></div>
             </div>
 
-            <!-- Mental Prompts -->
+            <!-- Daily Notes -->
             <div class="card">
-                <div class="card-title">Mental Check-In</div>
+                <div class="card-title">Training Notes & Reflections</div>
+                <textarea class="notes-textarea" id="dailyNotes" placeholder="What did you work on today? What felt good? What needs work? Any breakthroughs or challenges?"></textarea>
                 
-                <div class="mental-prompt">
-                    <div class="prompt-text">What am I grateful for today?</div>
-                    <textarea class="prompt-input" id="gratitudePrompt" placeholder="List three things you're grateful for today..."></textarea>
-                </div>
-
-                <div class="mental-prompt">
-                    <div class="prompt-text">What's one thing I did well today?</div>
-                    <textarea class="prompt-input" id="winPrompt" placeholder="Celebrate your progress, no matter how small..."></textarea>
-                </div>
-
-                <div class="mental-prompt">
-                    <div class="prompt-text">What challenged me today and what did I learn?</div>
-                    <textarea class="prompt-input" id="challengePrompt" placeholder="Reflect on challenges as opportunities to grow..."></textarea>
-                </div>
-
-                <div class="mental-prompt">
-                    <div class="prompt-text">What will I focus on tomorrow?</div>
-                    <textarea class="prompt-input" id="tomorrowPrompt" placeholder="Set your intention for tomorrow..."></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- Independent Practice Tab -->
-        <div id="practice" class="tab-content">
-            <div class="card">
-                <div class="card-title">Today's Practice</div>
-                <div class="practice-categories" id="practiceCategories"></div>
-            </div>
-        </div>
-
-        <!-- Performance Metrics Tab -->
-        <div id="performance" class="tab-content">
-            <div class="card">
-                <div class="card-title">Performance Tracking</div>
-                <div class="daily-grid">
-                    <div class="performance-tracker">
-                        <div class="tracker-header">
-                            <div class="tracker-title">⚡ Max Velocity</div>
-                        </div>
-                        <div class="tracker-input-group">
-                            <input type="number" class="tracker-input" id="velocityInput" placeholder="Enter MPH" step="0.1">
-                            <span class="tracker-unit">MPH</span>
-                        </div>
-                        <div class="tracker-history">
-                            <div class="history-label">Season Best</div>
-                            <div class="history-value" id="velocityBest">--</div>
-                        </div>
-                    </div>
-
-                    <div class="performance-tracker">
-                        <div class="tracker-header">
-                            <div class="tracker-title">🎯 Accuracy %</div>
-                        </div>
-                        <div class="tracker-input-group">
-                            <input type="number" class="tracker-input" id="accuracyInput" placeholder="0-100" min="0" max="100">
-                            <span class="tracker-unit">%</span>
-                        </div>
-                        <div class="tracker-history">
-                            <div class="history-label">Season Average</div>
-                            <div class="history-value" id="accuracyAvg">--</div>
-                        </div>
-                    </div>
-
-                    <div class="performance-tracker">
-                        <div class="tracker-header">
-                            <div class="tracker-title">🔄 Spin Rate</div>
-                        </div>
-                        <div class="tracker-input-group">
-                            <input type="number" class="tracker-input" id="spinInput" placeholder="Enter RPM">
-                            <span class="tracker-unit">RPM</span>
-                        </div>
-                        <div class="tracker-history">
-                            <div class="history-label">Season Best</div>
-                            <div class="history-value" id="spinBest">--</div>
-                        </div>
-                    </div>
+                <div class="notes-section">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 10px;">What are you grateful for today?</h3>
+                    <textarea class="notes-textarea" id="gratitudeNotes" placeholder="Write three things you're grateful for..."></textarea>
                 </div>
             </div>
         </div>
@@ -1392,8 +1377,8 @@
                         <div class="stat-label">Current Streak</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number" id="practiceCount">0</div>
-                        <div class="stat-label">Practice Sessions</div>
+                        <div class="stat-number" id="habitsCompleted">0</div>
+                        <div class="stat-label">Total Habits Completed</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-number" id="avgSleep">0</div>
@@ -1408,6 +1393,20 @@
                         <div class="stat-label">Avg Accuracy</div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="card">
+                <div class="card-title">Performance Over Time</div>
+                <div style="position: relative; height: 400px;">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Habit Breakdown -->
+            <div class="card">
+                <div class="card-title">Habit Tracker Breakdown</div>
+                <div class="habits-grid" id="habitBreakdown"></div>
             </div>
         </div>
 
@@ -1427,97 +1426,9 @@
     <div class="save-message" id="saveMessage">Journal saved!</div>
 
     <script>
-        // Practice categories from training document
-        const practiceCategories = [
-            {
-                name: "Bullpen Training",
-                items: [
-                    "Spot / Location Bullpens",
-                    "Movement Pitch Bullpens",
-                    "Game Simulation Bullpens",
-                    "Sequence & Strategy Bullpens",
-                    "Pressure / Consequence Bullpens",
-                    "Recovery / Low-Intent Bullpens"
-                ]
-            },
-            {
-                name: "Spin & Ball Flight Training",
-                items: [
-                    "Wrist & Finger Spin Work",
-                    "One-Knee Spins",
-                    "Short Distance Pitching (20-30 ft)",
-                    "Spin Axis Awareness",
-                    "Pitch Shape Development",
-                    "Spin Consistency Training"
-                ]
-            },
-            {
-                name: "Mechanical Development",
-                items: [
-                    "Full-Body Mechanical Assessment",
-                    "Arm Circle & Timing Adjustments",
-                    "Posture, Tilt & Direction",
-                    "Stride Length & Stability",
-                    "Drill-Based Patterning"
-                ]
-            },
-            {
-                name: "Velocity & Power Development",
-                items: [
-                    "Intent-Based Throwing",
-                    "Long Toss (Arm Strength & Carry)",
-                    "Radar Feedback Sessions",
-                    "Lower Body Power Training",
-                    "Core Rotation & Stability",
-                    "30/90 Speed Efficiency"
-                ]
-            },
-            {
-                name: "Mental & Competitive Training",
-                items: [
-                    "Pitching Under Pressure",
-                    "Count & Situation Training",
-                    "Pre-Pitch Routine Development",
-                    "Reset & Recovery Skills",
-                    "Confidence & Trust Building",
-                    "Competitive Mindset Training"
-                ]
-            },
-            {
-                name: "Game IQ & Strategy",
-                items: [
-                    "Pitch Sequencing",
-                    "Reading Hitters",
-                    "Strength-Based Pitch Calling",
-                    "Game Planning & Adjustments",
-                    "Scouting Awareness"
-                ]
-            },
-            {
-                name: "Recovery & Arm Care",
-                items: [
-                    "Shoulder Stability & Durability",
-                    "Forearm & Wrist Strength",
-                    "Mobility & Flexibility",
-                    "Active Recovery Sessions",
-                    "In-Season Maintenance"
-                ]
-            },
-            {
-                name: "Age-Specific Development",
-                items: [
-                    "8U-10U Foundations",
-                    "11U-12U Skill Building",
-                    "13U-14U Transition Phase",
-                    "High School Development",
-                    "College Preparation"
-                ]
-            }
-        ];
-
         // Initialize journal data
         let journalData = {
-            currentDate: new Date(2026, 0, 1),
+            currentDate: new Date(2026, 0, 1), // January 1, 2026
             dailyLogs: {},
             goals: [],
             games: [],
@@ -1545,7 +1456,6 @@
             }
             updateDateDisplay();
             loadDailyData();
-            renderPracticeCategories();
             renderGoals();
         }
 
@@ -1568,18 +1478,16 @@
             const key = getDateKey(journalData.currentDate);
             if (!journalData.dailyLogs[key]) {
                 journalData.dailyLogs[key] = {
-                    bedtime: 1320,
-                    wakeup: 360,
+                    bedtime: 1320, // 10:00 PM
+                    wakeup: 360,   // 6:00 AM
                     velocity: null,
+                    avgVelocity: null,
                     accuracy: null,
                     spin: null,
                     mood: null,
-                    gratitude: '',
-                    win: '',
-                    challenge: '',
-                    tomorrow: '',
-                    practice: {},
-                    habits: {}
+                    habits: {},
+                    notes: '',
+                    gratitude: ''
                 };
             }
             return journalData.dailyLogs[key];
@@ -1591,6 +1499,7 @@
             document.getElementById('currentDateDisplay').textContent = 
                 journalData.currentDate.toLocaleDateString('en-US', options);
             
+            // Update month/day selectors
             document.getElementById('monthSelect').value = journalData.currentDate.getMonth();
             updateDaySelector();
         }
@@ -1615,6 +1524,7 @@
         // Change day
         function changeDay(delta) {
             if (delta === undefined) {
+                // Called from day selector
                 const newDay = parseInt(document.getElementById('daySelect').value);
                 journalData.currentDate.setDate(newDay);
             } else {
@@ -1630,7 +1540,7 @@
             saveDailyData();
             const newMonth = parseInt(document.getElementById('monthSelect').value);
             journalData.currentDate.setMonth(newMonth);
-            journalData.currentDate.setDate(1);
+            journalData.currentDate.setDate(1); // Reset to first day of month
             updateDateDisplay();
             loadDailyData();
         }
@@ -1639,6 +1549,7 @@
         function goToToday() {
             saveDailyData();
             journalData.currentDate = new Date();
+            // Ensure we're in 2026
             if (journalData.currentDate.getFullYear() !== 2026) {
                 journalData.currentDate = new Date(2026, 0, 1);
             }
@@ -1657,6 +1568,7 @@
             
             // Performance
             document.getElementById('velocityInput').value = log.velocity || '';
+            document.getElementById('avgVelocityInput').value = log.avgVelocity || '';
             document.getElementById('accuracyInput').value = log.accuracy || '';
             document.getElementById('spinInput').value = log.spin || '';
             
@@ -1667,17 +1579,12 @@
                 if (moodBtn) moodBtn.classList.add('selected');
             }
             
-            // Mental prompts
-            document.getElementById('gratitudePrompt').value = log.gratitude || '';
-            document.getElementById('winPrompt').value = log.win || '';
-            document.getElementById('challengePrompt').value = log.challenge || '';
-            document.getElementById('tomorrowPrompt').value = log.tomorrow || '';
-            
             // Habits
             renderHabits();
             
-            // Practice checkboxes
-            renderPracticeCategories();
+            // Notes
+            document.getElementById('dailyNotes').value = log.notes || '';
+            document.getElementById('gratitudeNotes').value = log.gratitude || '';
             
             // Update bests
             updateBests();
@@ -1690,12 +1597,11 @@
             log.bedtime = parseInt(document.getElementById('bedtimeSlider').value);
             log.wakeup = parseInt(document.getElementById('wakeupSlider').value);
             log.velocity = parseFloat(document.getElementById('velocityInput').value) || null;
+            log.avgVelocity = parseFloat(document.getElementById('avgVelocityInput').value) || null;
             log.accuracy = parseFloat(document.getElementById('accuracyInput').value) || null;
             log.spin = parseFloat(document.getElementById('spinInput').value) || null;
-            log.gratitude = document.getElementById('gratitudePrompt').value;
-            log.win = document.getElementById('winPrompt').value;
-            log.challenge = document.getElementById('challengePrompt').value;
-            log.tomorrow = document.getElementById('tomorrowPrompt').value;
+            log.notes = document.getElementById('dailyNotes').value;
+            log.gratitude = document.getElementById('gratitudeNotes').value;
         }
 
         // Update sleep display
@@ -1703,6 +1609,7 @@
             const bedtime = parseInt(document.getElementById('bedtimeSlider').value);
             const wakeup = parseInt(document.getElementById('wakeupSlider').value);
             
+            // Convert minutes to time
             const bedHour = Math.floor(bedtime / 60);
             const bedMin = bedtime % 60;
             const wakeHour = Math.floor(wakeup / 60);
@@ -1716,8 +1623,9 @@
             document.getElementById('bedtimeDisplay').textContent = bedDisplay;
             document.getElementById('wakeupDisplay').textContent = wakeDisplay;
             
+            // Calculate duration
             let duration = wakeup - bedtime;
-            if (duration < 0) duration += 1440;
+            if (duration < 0) duration += 1440; // Add 24 hours if negative
             const hours = (duration / 60).toFixed(1);
             
             document.getElementById('sleepDuration').textContent = `${hours} hrs`;
@@ -1734,8 +1642,8 @@
 
         // Render habits
         function renderHabits() {
-            const habitsGrid = document.getElementById('habitsGrid');
             const log = getCurrentDailyLog();
+            const habitsGrid = document.getElementById('habitsGrid');
             
             habitsGrid.innerHTML = journalData.habits.map(habit => {
                 const isCompleted = log.habits[habit.id] || false;
@@ -1759,57 +1667,21 @@
             saveJournal();
         }
 
-        // Render practice categories
-        function renderPracticeCategories() {
-            const container = document.getElementById('practiceCategories');
-            const log = getCurrentDailyLog();
-            
-            container.innerHTML = practiceCategories.map((category, catIndex) => {
-                return `
-                    <div class="category-section" id="cat-${catIndex}">
-                        <div class="category-title" onclick="toggleCategory(${catIndex})">
-                            ${category.name}
-                        </div>
-                        <div class="category-items">
-                            ${category.items.map((item, itemIndex) => {
-                                const key = `${catIndex}-${itemIndex}`;
-                                const isChecked = log.practice[key] || false;
-                                return `
-                                    <div class="practice-item ${isChecked ? 'checked' : ''}" onclick="togglePractice('${key}')">
-                                        <div class="practice-checkbox"></div>
-                                        <div class="practice-name">${item}</div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Toggle category
-        function toggleCategory(catIndex) {
-            const category = document.getElementById(`cat-${catIndex}`);
-            category.classList.toggle('collapsed');
-        }
-
-        // Toggle practice
-        function togglePractice(key) {
-            const log = getCurrentDailyLog();
-            log.practice[key] = !log.practice[key];
-            renderPracticeCategories();
-            saveJournal();
-        }
-
         // Update bests
         function updateBests() {
             let maxVelocity = 0;
+            let totalAvgVelocity = 0;
+            let avgVelocityCount = 0;
             let totalAccuracy = 0;
             let accuracyCount = 0;
             let maxSpin = 0;
             
             Object.values(journalData.dailyLogs).forEach(log => {
                 if (log.velocity && log.velocity > maxVelocity) maxVelocity = log.velocity;
+                if (log.avgVelocity) {
+                    totalAvgVelocity += log.avgVelocity;
+                    avgVelocityCount++;
+                }
                 if (log.accuracy) {
                     totalAccuracy += log.accuracy;
                     accuracyCount++;
@@ -1818,6 +1690,7 @@
             });
             
             document.getElementById('velocityBest').textContent = maxVelocity ? `${maxVelocity} MPH` : '--';
+            document.getElementById('avgVelocityAvg').textContent = avgVelocityCount ? `${(totalAvgVelocity / avgVelocityCount).toFixed(1)} MPH` : '--';
             document.getElementById('accuracyAvg').textContent = accuracyCount ? `${(totalAccuracy / accuracyCount).toFixed(1)}%` : '--';
             document.getElementById('spinBest').textContent = maxSpin ? `${maxSpin} RPM` : '--';
         }
@@ -1831,6 +1704,7 @@
                 return;
             }
             
+            // Sort lessons by date (newest first)
             const sortedLessons = [...journalData.lessons].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             lessonsList.innerHTML = sortedLessons.map(lesson => {
@@ -1921,6 +1795,7 @@
                 return;
             }
             
+            // Sort games by date (newest first)
             const sortedGames = [...journalData.games].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             gamesList.innerHTML = sortedGames.map(game => {
@@ -1935,9 +1810,9 @@
                                 <div class="game-date">${dateStr}</div>
                                 ${game.inningsPitched ? `
                                     <div class="game-summary">
-                                        <div>${game.inningsPitched} IP</div>
-                                        <div>${game.strikeouts || 0} K</div>
-                                        <div>${game.earnedRuns || 0} ER</div>
+                                        <div class="game-summary-item">${game.inningsPitched} IP</div>
+                                        <div class="game-summary-item">${game.strikeouts || 0} K</div>
+                                        <div class="game-summary-item">${game.earnedRuns || 0} ER</div>
                                     </div>
                                 ` : ''}
                             </div>
@@ -2158,16 +2033,46 @@
             }
             document.getElementById('streakDays').textContent = streak;
             
-            // Count practice sessions
-            let practiceCount = 0;
-            let habitsCompleted = 0;
+            // Count total habits
+            let totalHabits = 0;
+            const habitCounts = {};
+            
+            // Initialize habit counts
+            journalData.habits.forEach(habit => {
+                habitCounts[habit.id] = 0;
+            });
+            
             Object.values(journalData.dailyLogs).forEach(log => {
-                if (Object.keys(log.practice).length > 0) practiceCount++;
-                Object.values(log.habits).forEach(completed => {
-                    if (completed) habitsCompleted++;
+                Object.entries(log.habits).forEach(([habitId, completed]) => {
+                    if (completed) {
+                        totalHabits++;
+                        habitCounts[parseInt(habitId)] = (habitCounts[parseInt(habitId)] || 0) + 1;
+                    }
                 });
             });
-            document.getElementById('practiceCount').textContent = practiceCount;
+            document.getElementById('habitsCompleted').textContent = totalHabits;
+            
+            // Render habit breakdown
+            const habitBreakdown = document.getElementById('habitBreakdown');
+            const maxPossible = totalDays; // Max times they could have completed each habit
+            
+            habitBreakdown.innerHTML = journalData.habits.map(habit => {
+                const count = habitCounts[habit.id] || 0;
+                const percentage = maxPossible > 0 ? ((count / maxPossible) * 100).toFixed(1) : 0;
+                
+                return `
+                    <div class="habit-progress-item">
+                        <div class="habit-progress-header">
+                            <div class="habit-progress-name">${habit.name}</div>
+                            <div class="habit-progress-count">${count} / ${maxPossible}</div>
+                        </div>
+                        <div class="habit-progress-bar-container">
+                            <div class="habit-progress-bar" style="width: ${percentage}%"></div>
+                        </div>
+                        <div class="habit-progress-percentage">${percentage}% completion rate</div>
+                    </div>
+                `;
+            }).join('');
             
             // Average sleep
             let totalSleep = 0;
@@ -2197,6 +2102,209 @@
                 }
             });
             document.getElementById('avgAccuracy').textContent = accuracyCount ? `${(totalAccuracy / accuracyCount).toFixed(1)}%` : '--';
+            
+            // Render performance chart
+            renderPerformanceChart();
+        }
+
+        // Render performance chart
+        let performanceChart = null;
+        
+        function renderPerformanceChart() {
+            // Get all entries sorted by date
+            const sortedEntries = Object.entries(journalData.dailyLogs)
+                .filter(([key, log]) => log.velocity || log.avgVelocity || log.accuracy)
+                .sort((a, b) => new Date(a[0]) - new Date(b[0]));
+            
+            if (sortedEntries.length === 0) {
+                // No data yet
+                const ctx = document.getElementById('performanceChart');
+                if (ctx) {
+                    ctx.getContext('2d').clearRect(0, 0, ctx.width, ctx.height);
+                    const context = ctx.getContext('2d');
+                    context.font = '16px Work Sans';
+                    context.fillStyle = '#999';
+                    context.textAlign = 'center';
+                    context.fillText('No performance data logged yet. Start tracking to see your progress!', ctx.width / 2, ctx.height / 2);
+                }
+                return;
+            }
+            
+            // Prepare data
+            const labels = sortedEntries.map(([key]) => {
+                const date = new Date(key);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+            
+            const maxVeloData = sortedEntries.map(([key, log]) => log.velocity);
+            const avgVeloData = sortedEntries.map(([key, log]) => log.avgVelocity);
+            const accuracyData = sortedEntries.map(([key, log]) => log.accuracy);
+            
+            // Destroy existing chart if it exists
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+            
+            // Create chart
+            const ctx = document.getElementById('performanceChart');
+            performanceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Max Velocity (MPH)',
+                            data: maxVeloData,
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Avg Velocity (MPH)',
+                            data: avgVeloData,
+                            borderColor: '#4a6fa5',
+                            backgroundColor: 'rgba(74, 111, 165, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Accuracy (%)',
+                            data: accuracyData,
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                family: 'Work Sans',
+                                size: 14,
+                                weight: '700'
+                            },
+                            bodyFont: {
+                                family: 'Work Sans',
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(1);
+                                        if (context.dataset.label.includes('Velocity')) {
+                                            label += ' MPH';
+                                        } else if (context.dataset.label.includes('Accuracy')) {
+                                            label += '%';
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 12
+                                },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Velocity (MPH)',
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 13,
+                                    weight: '600'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 12
+                                }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)',
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 13,
+                                    weight: '600'
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Work Sans',
+                                    size: 12
+                                }
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
         }
 
         // Render year review
@@ -2206,13 +2314,16 @@
                            'July', 'August', 'September', 'October', 'November', 'December'];
             
             yearCalendar.innerHTML = months.map((month, index) => {
+                // Count logs for this month
                 let logsCount = 0;
-                let practiceCount = 0;
+                let habitsCount = 0;
                 Object.entries(journalData.dailyLogs).forEach(([key, log]) => {
                     const date = new Date(key);
                     if (date.getMonth() === index && date.getFullYear() === 2026) {
                         logsCount++;
-                        if (Object.keys(log.practice).length > 0) practiceCount++;
+                        Object.values(log.habits).forEach(completed => {
+                            if (completed) habitsCount++;
+                        });
                     }
                 });
                 
@@ -2221,43 +2332,46 @@
                         <div class="month-name">${month}</div>
                         <div class="month-stats">
                             📝 ${logsCount} days logged<br>
-                            💪 ${practiceCount} practice sessions
+                            ✓ ${habitsCount} habits completed
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // Initialize
+        // Auto-save on input changes
         document.addEventListener('DOMContentLoaded', function() {
             loadJournal();
             
             // Add auto-save for inputs
-            ['velocityInput', 'accuracyInput', 'spinInput', 
-             'gratitudePrompt', 'winPrompt', 'challengePrompt', 'tomorrowPrompt'].forEach(id => {
+            ['velocityInput', 'avgVelocityInput', 'accuracyInput', 'spinInput', 'dailyNotes', 'gratitudeNotes'].forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
                     element.addEventListener('blur', saveJournal);
                 }
             });
             
-            // Set default lesson date
+            // Set default lesson date to today
             const lessonDateInput = document.getElementById('lessonDate');
             if (lessonDateInput) {
                 lessonDateInput.value = journalData.currentDate.toISOString().split('T')[0];
             }
             
-            // Game opponent Enter key
+            // Game opponent input Enter key
             const gameInput = document.getElementById('gameOpponent');
             if (gameInput) {
                 gameInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') addGame();
+                    if (e.key === 'Enter') {
+                        addGame();
+                    }
                 });
             }
             
             // Goal input Enter key
             document.getElementById('goalInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addGoal();
+                if (e.key === 'Enter') {
+                    addGoal();
+                }
             });
         });
     </script>
